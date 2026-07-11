@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { CommentList } from "../components/CommentList";
 import { CommentForm } from "../components/CommentForm";
+import { LikeButton } from "../components/LikeButton";
 
 export function PostDetail() {
     const { postId } = useParams();
@@ -34,6 +35,7 @@ export function PostDetail() {
 
             <CommentList postId={postId} comments={post.comments} />
             <CommentForm postId={postId} onCommentCreated={handleCommentCreated} />
+            <LikeButton postId={postId} />
         </div>
     );
 }

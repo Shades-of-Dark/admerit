@@ -8,6 +8,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
 const commentRouter = require("./routes/commentRouter");
+const likeRouter = require("./routes/likeRouter");
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const { loginValidators } = require("./validators/userValidators");
@@ -63,7 +64,7 @@ passport.deserializeUser(async (id, done) => {
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/posts", postRouter);
 //app.use("/api/v1/posts/:userId/followers", followRouter);
-//app.use("/api/v1/posts/:postId/likes", likeRouter);
+app.use("/api/v1/posts/:postId/likes", likeRouter);
 
 app.use("/api/v1/posts/:postId/comments", commentRouter);
 

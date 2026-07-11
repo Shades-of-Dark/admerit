@@ -41,7 +41,7 @@ async function getPostsByUserHandler(req, res, next) {
 
 async function getPostByIdHandler(req, res, next) {
     try {
-        const post = await getPostById(Number(req.params.id));
+        const post = await getPostById({ id: Number(req.params.id) });
         if (!post) return res.status(404).json({ error: "Post not found" });
         res.json(post);
     } catch (error) {

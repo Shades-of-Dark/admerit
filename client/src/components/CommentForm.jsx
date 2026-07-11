@@ -24,10 +24,12 @@ export function CommentForm({ postId, onCommentCreated }) {
 
     return (
         <form className="post-form" onSubmit={handleSubmit}>
+            <label for="comment-box">Leave a comment</label>
             <textarea
+                id="comment-box"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="What's on your mind?"
+                placeholder="What are your thoughts?"
                 rows={3}
             />
             <FieldError>{error}</FieldError>
