@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { getPosts } from "../api/posts";
+import { getFeed } from "../api/posts";
 import { PostForm } from "../components/PostForm";
 import { PostList } from "../components/PostList";
 import { FormAlert } from "../components/FormFeedback";
 
 export function Feed() {
     const [posts, setPosts] = useState([]);
+    const [discoveryMode, setDiscoveryMode] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        getPosts()
-            .then(setPosts)
+        getFeed()
+            .then(({ posts, discoveryMode }) => {
+                setPosts(posts);
+                setDiscoveryMode(discoveryMode);
+            })
             .catch((err) => setError(err.message))
             .finally(() => setLoading(false));
     }, []);
@@ -21,10 +25,15 @@ export function Feed() {
     }
 
     return (
-        <div className="feed">
+        <div className="max-w-2xl">
             <PostForm onPostCreated={handlePostCreated} />
-            {loading && <p>Loading posts...</p>}
+            {loading && <p className="py-8 text-center text-[var(--text)]">Loading posts...</p>}
             <FormAlert>{error}</FormAlert>
+            {!loading && !error && discoveryMode && (
+                <p className="mb-4 text-sm text-[var(--text)]">
+                    You're not following many people yet, so we've mixed in some recent posts to get you started.
+                </p>
+            )}
             {!loading && !error && <PostList posts={posts} />}
         </div>
     );

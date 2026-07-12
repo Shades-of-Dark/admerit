@@ -16,14 +16,21 @@ export function LikeButton({ postId }) {
     }
 
     return (
-        <button onClick={toggleLike} className="like-button">
+        <button
+            onClick={toggleLike}
+            className={
+                state.liked
+                    ? "inline-flex items-center gap-2 rounded-full border border-(--accent) bg-(--accent-bg) px-4 py-2 text-sm font-medium text-[var(--accent)]"
+                    : "inline-flex items-center gap-2 rounded-full border border-(--border) px-4 py-2 text-sm font-medium text-(--text) hover:bg-[var(--social-bg)]"
+            }
+        >
             <img
                 src={state.liked ? "/thumbs-up-filled.svg" : "/thumbsup.svg"}
                 alt={state.liked ? "Liked" : "Not liked"}
-                width={20}
-                height={20}
+                width={18}
+                height={18}
             />
-            <span>{state.count}</span>
+            <span>{state.count} {state.count === 1 ? "like" : "likes"}</span>
         </button>
     );
 }

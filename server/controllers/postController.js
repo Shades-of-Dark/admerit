@@ -1,6 +1,7 @@
 const {
     createPost,
     getAllPosts,
+    getFeedPosts,
     getPostsByUser,
     getPostById,
     getPostAuthorId,
@@ -23,6 +24,17 @@ async function getAllPostsHandler(req, res, next) {
         const limit = Number(req.query.limit) || 20;
         const posts = await getAllPosts({ page, limit });
         res.json(posts);
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function getFeedHandler(req, res, next) {
+    try {
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 20;
+        const feed = await getFeedPosts({ userId: req.user.id, page, limit });
+        res.json(feed);
     } catch (error) {
         next(error);
     }
@@ -80,6 +92,7 @@ async function deletePostHandler(req, res, next) {
 module.exports = {
     createPostHandler,
     getAllPostsHandler,
+    getFeedHandler,
     getPostsByUserHandler,
     getPostByIdHandler,
     updatePostHandler,

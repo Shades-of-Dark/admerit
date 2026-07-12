@@ -6,6 +6,12 @@ export async function getPosts({ page = 1, limit = 20 } = {}) {
     return res.json();
 }
 
+export async function getFeed({ page = 1, limit = 20 } = {}) {
+    const res = await fetch(`/api/v1/posts/feed?page=${page}&limit=${limit}`, { credentials: "include" });
+    if (!res.ok) await parseErrorResponse(res, "Failed to load feed");
+    return res.json();
+}
+
 export async function createPost(content) {
     const res = await fetch("/api/v1/posts", {
         method: "POST",

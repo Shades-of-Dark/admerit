@@ -22,6 +22,12 @@ export async function login(username, password) {
     if (!res.ok) await parseErrorResponse(res, "Login failed");
     return res.json();
 }
+export async function guestLogin() {
+    const res = await fetch("/guest-login", { method: "POST", credentials: "include" });
+    if (!res.ok) await parseErrorResponse(res, "Guest login failed");
+    return res.json();
+}
+
 export async function logout() {
     const res = await fetch("/log-out", { method: "POST", credentials: "include" });
     return res.json();

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getSession, login as loginApi, logout as logoutApi, signup as signupApi } from "../api/auth";
+import { getSession, login as loginApi, logout as logoutApi, signup as signupApi, guestLogin as guestLoginApi } from "../api/auth";
 
 const AuthContext = createContext(null);
 
@@ -24,13 +24,18 @@ export function AuthProvider({ children }) {
         setUser(user); // auto-login after signup
     }
 
+    async function guestLogin() {
+        const { user } = await guestLoginApi();
+        setUser(user);
+    }
+
     async function logout() {
         await logoutApi();
         setUser(null);
     }
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, signup, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, signup, guestLogin, logout }}>
             {children}
         </AuthContext.Provider>
     );

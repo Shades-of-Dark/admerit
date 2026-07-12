@@ -31,7 +31,7 @@ export function PostForm({ onPostCreated }) {
                 rows={3}
             />
             <FieldError>{error}</FieldError>
-            <button type="submit" disabled={submitting}>
+            <button type="submit" disabled={submitting} className="transition-opacity hover:opacity-90">
                 {submitting ? "Posting..." : "Post"}
             </button>
         </form>

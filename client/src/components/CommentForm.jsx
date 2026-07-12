@@ -24,7 +24,7 @@ export function CommentForm({ postId, onCommentCreated }) {
 
     return (
         <form className="post-form" onSubmit={handleSubmit}>
-            <label for="comment-box">Leave a comment</label>
+            <label htmlFor="comment-box">Leave a comment</label>
             <textarea
                 id="comment-box"
                 value={content}
@@ -33,7 +33,7 @@ export function CommentForm({ postId, onCommentCreated }) {
                 rows={3}
             />
             <FieldError>{error}</FieldError>
-            <button type="submit" disabled={submitting}>
+            <button type="submit" disabled={submitting} className="transition-opacity hover:opacity-90">
                 {submitting ? "Posting..." : "Post"}
             </button>
         </form>

@@ -4,12 +4,13 @@ import { FieldError, FormAlert } from "./FormFeedback";
 import { fieldInputClasses } from "../utils/formStyles";
 
 export function LoginForm({ onSwitchToSignup }) {
-    const { login } = useAuth();
+    const { login, guestLogin } = useAuth();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [fieldErrors, setFieldErrors] = useState({});
     const [formError, setFormError] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+    const [guestSubmitting, setGuestSubmitting] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -23,6 +24,18 @@ export function LoginForm({ onSwitchToSignup }) {
             else setFormError(err.message);
         } finally {
             setSubmitting(false);
+        }
+    }
+
+    async function handleGuestLogin() {
+        setFormError(null);
+        setGuestSubmitting(true);
+        try {
+            await guestLogin();
+        } catch (err) {
+            setFormError(err.message);
+        } finally {
+            setGuestSubmitting(false);
         }
     }
 
@@ -59,9 +72,20 @@ export function LoginForm({ onSwitchToSignup }) {
             </div>
 
             <FormAlert>{formError}</FormAlert>
-
+            <a href="http://localhost:3000/auth/github" className="oauth-button">
+                Continue with GitHub
+            </a>
             <button type="submit" disabled={submitting}>
                 {submitting ? "Logging in..." : "Log In"}
+            </button>
+
+            <button
+                type="button"
+                onClick={handleGuestLogin}
+                disabled={guestSubmitting}
+                className="rounded-md border border-(--border) bg-transparent py-2.5 text-(--text-h) transition-opacity hover:opacity-80 disabled:cursor-default disabled:opacity-60"
+            >
+                {guestSubmitting ? "Signing in..." : "Continue as Guest"}
             </button>
 
             {onSwitchToSignup && (
