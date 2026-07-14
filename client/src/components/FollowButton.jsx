@@ -33,13 +33,13 @@ export function FollowButton({ userId, isFollowing, onChange }) {
                 className={
                     isFollowing
                         ? "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[var(--accent)] bg-transparent px-4 py-1.5 text-sm font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent-bg)] disabled:cursor-default disabled:opacity-60"
-                        : "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-default disabled:opacity-60"
+                        : "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-1.5 text-sm font-medium text-[var(--accent-contrast)] transition-opacity hover:opacity-90 disabled:cursor-default disabled:opacity-60"
                 }
             >
                 {pending && <Spinner size={13} />}
                 {isFollowing ? "Following" : "Follow"}
             </button>
-            {error && <span className="text-xs text-red-600 dark:text-red-400">{error}</span>}
+            {error && <span className="text-xs text-[var(--danger)]">{error}</span>}
         </div>
     );
 }

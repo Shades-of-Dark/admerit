@@ -67,7 +67,10 @@ export function Profile() {
                 {isOwnProfile && (
                     <div className="flex flex-col items-end gap-1.5">
                         <span className="whitespace-nowrap text-[13px] text-[var(--text)]">This is you</span>
-                        <Link to={`/users/${userId}/edit`} className="inline-block rounded-md bg-gray-900 px-3 py-1.5 text-[13px] text-white no-underline hover:bg-gray-800 transition-colors">
+                        <Link
+                            to={`/users/${userId}/edit`}
+                            className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-1.5 text-sm font-medium text-[var(--accent-contrast)] no-underline transition-opacity hover:opacity-90"
+                        >
                             Edit
                         </Link>
                     </div>

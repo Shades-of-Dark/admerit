@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { FieldError, FormAlert } from "./FormFeedback";
 import { fieldInputClasses } from "../utils/formStyles";
 import '../styles/logincompanybranding.css';
@@ -15,6 +16,7 @@ const PASSWORD_MESSAGE = "Password must be 8-72 characters";
 
 export function SignupForm({ onSwitchToLogin }) {
     const { signup } = useAuth();
+    const { theme } = useTheme();
     const [form, setForm] = useState({
         username: "",
         email: "",
@@ -137,7 +139,7 @@ export function SignupForm({ onSwitchToLogin }) {
                     }
                     placeholder="Search for a major..."
                     isClearable
-                    styles={majorSelectStyles(!!fieldErrors.intendedMajor)}
+                    styles={majorSelectStyles(!!fieldErrors.intendedMajor, theme)}
                     aria-invalid={!!fieldErrors.intendedMajor}
                     aria-describedby={fieldErrors.intendedMajor ? "signup-intended-major-error" : undefined}
                 />

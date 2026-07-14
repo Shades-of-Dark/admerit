@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { updateUser } from "../api/users";
 import { FieldError, FormAlert } from "./FormFeedback";
 import { fieldInputClasses } from "../utils/formStyles";
@@ -14,6 +15,7 @@ const PASSWORD_MESSAGE = "Password must be 8-72 characters";
 
 export function EditProfileForm({ profile }) {
     const { user, setUser } = useAuth();
+    const { theme } = useTheme();
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
@@ -139,7 +141,7 @@ export function EditProfileForm({ profile }) {
                     }
                     placeholder="Search for a major..."
                     isClearable
-                    styles={majorSelectStyles(!!fieldErrors.intendedMajor)}
+                    styles={majorSelectStyles(!!fieldErrors.intendedMajor, theme)}
                 />
                 {fieldErrors.intendedMajor && (
                     <FieldError id="edit-intended-major-error">{fieldErrors.intendedMajor}</FieldError>

@@ -4,7 +4,7 @@
 export function FieldError({ id, children }) {
     if (!children) return null;
     return (
-        <p id={id} role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+        <p id={id} role="alert" className="mt-1 text-sm text-[var(--danger)]">
             {children}
         </p>
     );
@@ -15,7 +15,7 @@ export function FormAlert({ children }) {
     return (
         <div
             role="alert"
-            className="flex items-start gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-400"
+            className="flex items-start gap-2 rounded-md border border-[var(--danger)] bg-[var(--danger-bg)] px-3 py-2 text-sm text-[var(--danger)]"
         >
             <svg
                 aria-hidden="true"

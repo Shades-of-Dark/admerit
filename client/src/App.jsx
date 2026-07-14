@@ -11,6 +11,8 @@ import { UsersIndex } from "./pages/UsersIndex";
 import { Profile } from "./pages/Profile";
 import { EditProfilePage } from "./pages/EditProfilePage";
 import { PageSpinner } from "./components/Spinner";
+import { ThemeProvider } from "./context/ThemeContext";
+import { ThemeToggle } from "./components/themeToggle";
 function AuthGate() {
     const { user, loading } = useAuth();
     const [mode, setMode] = useState("login");
@@ -39,18 +41,27 @@ function AuthGate() {
         );
     }
 
-    return mode === "login" ? (
-        <LoginForm onSwitchToSignup={() => setMode("signup")} />
-    ) : (
-        <SignupForm onSwitchToLogin={() => setMode("login")} />
+    return (
+        <div className="relative min-h-screen">
+            <div className="absolute right-4 top-4">
+                <ThemeToggle />
+            </div>
+            {mode === "login" ? (
+                <LoginForm onSwitchToSignup={() => setMode("signup")} />
+            ) : (
+                <SignupForm onSwitchToLogin={() => setMode("login")} />
+            )}
+        </div>
     );
 }
 
 function App() {
     return (
-        <AuthProvider>
-            <AuthGate />
-        </AuthProvider>
+        <ThemeProvider>
+            <AuthProvider>
+                <AuthGate />
+            </AuthProvider>
+        </ThemeProvider>
     );
 }
 

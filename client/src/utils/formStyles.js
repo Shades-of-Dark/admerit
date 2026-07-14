@@ -2,6 +2,6 @@
 // whether that field currently has a validation error.
 export function fieldInputClasses(hasError) {
     return hasError
-        ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/30 outline-none"
+        ? "border-[var(--danger)] focus:border-[var(--danger)] focus:ring-2 focus:ring-[var(--danger)] outline-none"
         : "";
 }

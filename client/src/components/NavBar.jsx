@@ -1,6 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Avatar } from "./Avatar";
+import { ThemeToggle } from "./themeToggle";
 
 const linkClass = ({ isActive }) =>
     isActive
@@ -31,6 +32,7 @@ export function NavBar() {
                     <Avatar username={user.username} src={user.profilePhoto} size={32} />
                     <span>{user.username}</span>
                 </Link>
+                <ThemeToggle />
                 <button
                     type="button"
                     onClick={logout}
