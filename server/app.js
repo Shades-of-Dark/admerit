@@ -173,7 +173,12 @@ app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/posts/:postId/likes", likeRouter);
 app.use("/api/v1/posts/:postId/comments", commentRouter);
 
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
+
+app.get(/^(?!\/api|\/auth|\/log-in|\/log-out|\/guest-login).*/, (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 app.use(errorHandler);
 
 app.listen(PORT, (error) => {
