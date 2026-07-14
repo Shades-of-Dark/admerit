@@ -34,8 +34,13 @@ export function AuthProvider({ children }) {
         setUser(null);
     }
 
+    async function refreshSession() {
+        const { user } = await getSession();
+        setUser(user);
+    }
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, signup, guestLogin, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, signup, guestLogin, logout, setUser, refreshSession }}>
             {children}
         </AuthContext.Provider>
     );

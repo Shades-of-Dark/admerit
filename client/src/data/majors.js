@@ -1,0 +1,15 @@
+export const MAJORS = [
+    "Accounting", "Aerospace Engineering", "Anthropology", "Applied Mathematics",
+    "Art History", "Biochemistry", "Biology", "Biomedical Engineering",
+    "Business Administration", "Chemical Engineering", "Chemistry",
+    "Civil Engineering", "Cognitive Science", "Communications",
+    "Computer Engineering", "Computer Science", "Criminal Justice",
+    "Data Science", "Economics", "Electrical Engineering", "English",
+    "Environmental Science", "Film Studies", "Finance", "Graphic Design",
+    "History", "Industrial Engineering", "Information Systems",
+    "International Relations", "Journalism", "Kinesiology", "Linguistics",
+    "Mathematics", "Mechanical Engineering", "Music", "Neuroscience",
+    "Nursing", "Nutrition Science", "Philosophy", "Physics",
+    "Political Science", "Psychology", "Public Health", "Sociology",
+    "Statistics", "Theatre", "Undecided", "Other",
+];

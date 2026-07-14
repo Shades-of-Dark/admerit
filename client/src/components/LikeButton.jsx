@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
+import { Spinner } from "./Spinner";
 
 export function LikeButton({ postId }) {
     const [state, setState] = useState({ count: 0, liked: false });
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         fetch(`/api/v1/posts/${postId}/likes`, { credentials: "include" })
             .then(res => res.json())
-            .then(setState);
+            .then(setState)
+            .finally(() => setLoading(false));
     }, [postId]);
 
     async function toggleLike() {
@@ -18,18 +22,23 @@ export function LikeButton({ postId }) {
     return (
         <button
             onClick={toggleLike}
+            disabled={loading}
             className={
                 state.liked
-                    ? "inline-flex items-center gap-2 rounded-full border border-(--accent) bg-(--accent-bg) px-4 py-2 text-sm font-medium text-[var(--accent)]"
-                    : "inline-flex items-center gap-2 rounded-full border border-(--border) px-4 py-2 text-sm font-medium text-(--text) hover:bg-[var(--social-bg)]"
+                    ? "inline-flex items-center gap-2 rounded-full border border-(--accent) bg-(--accent-bg) px-4 py-2 text-sm font-medium text-[var(--accent)] disabled:opacity-60"
+                    : "inline-flex items-center gap-2 rounded-full border border-(--border) px-4 py-2 text-sm font-medium text-(--text) hover:bg-[var(--social-bg)] disabled:opacity-60"
             }
         >
-            <img
-                src={state.liked ? "/thumbs-up-filled.svg" : "/thumbsup.svg"}
-                alt={state.liked ? "Liked" : "Not liked"}
-                width={18}
-                height={18}
-            />
+            {loading ? (
+                <Spinner size={16} />
+            ) : (
+                <img
+                    src={state.liked ? "/thumbs-up-filled.svg" : "/thumbsup.svg"}
+                    alt={state.liked ? "Liked" : "Not liked"}
+                    width={18}
+                    height={18}
+                />
+            )}
             <span>{state.count} {state.count === 1 ? "like" : "likes"}</span>
         </button>
     );

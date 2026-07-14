@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createComment } from "../api/comments";
 import { FieldError } from "./FormFeedback";
+import { Spinner } from "./Spinner";
 
 export function CommentForm({ postId, onCommentCreated }) {
     const [content, setContent] = useState("");
@@ -33,7 +34,8 @@ export function CommentForm({ postId, onCommentCreated }) {
                 rows={3}
             />
             <FieldError>{error}</FieldError>
-            <button type="submit" disabled={submitting} className="transition-opacity hover:opacity-90">
+            <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 transition-opacity hover:opacity-90">
+                {submitting && <Spinner size={16} />}
                 {submitting ? "Posting..." : "Post"}
             </button>
         </form>

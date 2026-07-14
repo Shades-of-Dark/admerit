@@ -51,10 +51,58 @@ const signupValidators = [
         .trim()
         .isURL().withMessage("Profile photo must be a valid URL"),
 ];
+const updateUserValidators = [
+    body("username")
+        .optional({ checkFalsy: true })
+        .trim()
+        .isLength({ min: 3, max: 20 }).withMessage(USERNAME_MESSAGE)
+        .bail()
+        .matches(/^[a-zA-Z0-9_]+$/).withMessage(USERNAME_MESSAGE)
+        .bail()
+        .custom(async (value, { req }) => {
+            const existing = await findUserByUsername({ username: value });
+            if (existing && existing.id !== req.user.id) {
+                throw new Error("Username is already taken");
+            }
+        }),
+
+    body("email")
+        .optional({ checkFalsy: true })
+        .trim()
+        .isEmail().withMessage(EMAIL_MESSAGE)
+        .bail()
+        .normalizeEmail()
+        .custom(async (value, { req }) => {
+            const existing = await findUserByEmail({ email: value });
+            if (existing && existing.id !== req.user.id) {
+                throw new Error("An account with this email already exists");
+            }
+        }),
+
+    
+    body("newPassword")
+        .optional({ checkFalsy: true })
+        .isLength({ min: 8, max: 72 }).withMessage(PASSWORD_MESSAGE),
+
+    body("bio")
+        .optional({ checkFalsy: true })
+        .trim()
+        .isLength({ max: 280 }).withMessage("Bio must be 280 characters or fewer"),
+
+    body("intendedMajor")
+        .optional({ checkFalsy: true })
+        .trim()
+        .isLength({ max: 100 }).withMessage("Intended major must be 100 characters or fewer"),
+
+    body("profilePhoto")
+        .optional({ checkFalsy: true })
+        .trim()
+        .isURL().withMessage("Profile photo must be a valid URL"),
+];
 
 const loginValidators = [
     body("username").trim().notEmpty().withMessage("Username or email is required"),
     body("password").notEmpty().withMessage("Password is required"),
 ];
 
-module.exports = { signupValidators, loginValidators, PASSWORD_MESSAGE };
+module.exports = { signupValidators, loginValidators, updateUserValidators, PASSWORD_MESSAGE };

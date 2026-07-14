@@ -4,6 +4,7 @@ import { getUsers } from "../api/users";
 import { Avatar } from "../components/Avatar";
 import { FollowButton } from "../components/FollowButton";
 import { FormAlert } from "../components/FormFeedback";
+import { UserRowSkeleton } from "../components/UserRowSkeleton";
 
 export function UsersIndex() {
     const [users, setUsers] = useState([]);
@@ -21,15 +22,23 @@ export function UsersIndex() {
         setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, isFollowing } : u)));
     }
 
-    if (loading) return <p className="py-8 text-center text-[var(--text)]">Loading users...</p>;
-
     return (
         <div>
             <h2>Users</h2>
             <FormAlert>{error}</FormAlert>
-            {users.length === 0 && !error && (
+            {loading && (
+                <ul className="m-0 mt-4 grid list-none grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-0">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <li key={i}>
+                            <UserRowSkeleton />
+                        </li>
+                    ))}
+                </ul>
+            )}
+            {!loading && users.length === 0 && !error && (
                 <p className="py-8 text-center text-[var(--text)]">No other users yet.</p>
             )}
+            {!loading && (
             <ul className="m-0 mt-4 grid list-none grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-0">
                 {users.map((user) => (
                     <li
@@ -58,6 +67,7 @@ export function UsersIndex() {
                     </li>
                 ))}
             </ul>
+            )}
         </div>
     );
 }

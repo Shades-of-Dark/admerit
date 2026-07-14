@@ -71,14 +71,43 @@ async function getUserByIdHandler(req, res) {
     }
 }
 
-async function updateUserHandler(req, res) {
+async function updateUserHandler(req, res, next) {
     try {
-        const updatedUser = await updateUser({ id: req.user.id, ...req.body });
+        if (Number(req.params.id) !== req.user.id) {
+            return res.status(403).json({ error: "Not authorized to edit this profile" });
+        }
+
+        const { username, email, bio, intendedMajor, profilePhoto, currentPassword, newPassword } = req.body;
+        const updates = { username, email, bio, intendedMajor, profilePhoto };
+
+       
+        if (newPassword) {
+            const fullUser = await findUserByID({ id: req.user.id }); 
+
+            if (fullUser.password) {
+
+                if (!currentPassword) {
+                    return res.status(400).json({ errors: { currentPassword: "Enter your current password" } });
+                }
+                const match = await bcrypt.compare(currentPassword, fullUser.password);
+                if (!match) {
+                    return res.status(400).json({ errors: { currentPassword: "Current password is incorrect" } });
+                }
+            }
+        
+            updates.password = await bcrypt.hash(newPassword, 10);
+        }
+
+        const updatedUser = await updateUser({ id: req.user.id, ...updates });
         const { password, ...safeUser } = updatedUser;
         res.json(safeUser);
     } catch (error) {
+        if (error.code === "P2002") {
+            const field = error.meta?.target?.[0] || "username";
+            return res.status(400).json({ errors: { [field]: `This ${field} is already taken` } });
+        }
         console.error(error);
-        res.status(500).json({ error: "Failed to update user" });
+        res.status(500).json({ error: "Failed to update profile" });
     }
 }
 

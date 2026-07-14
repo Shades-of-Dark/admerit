@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getUsers } from "../api/users";
 import { Avatar } from "./Avatar";
 import { FollowButton } from "./FollowButton";
+import { Spinner } from "./Spinner";
 
 export function SuggestedUsers() {
     const [users, setUsers] = useState([]);
@@ -21,14 +22,19 @@ export function SuggestedUsers() {
         }
     }
 
-    if (loading || users.length === 0) return null;
+    if (!loading && users.length === 0) return null;
 
     return (
         <div className="rounded-lg border border-[var(--border)] p-4">
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-[var(--text)]">
                 Who to follow
             </h3>
-            <ul className="flex flex-col gap-3">
+            {loading && (
+                <div className="flex justify-center py-4">
+                    <Spinner size={18} className="text-[var(--accent)]" />
+                </div>
+            )}
+            {!loading && <ul className="flex flex-col gap-3">
                 {users.map((user) => (
                     <li key={user.id} className="flex items-center gap-2">
                         <Link
@@ -47,7 +53,7 @@ export function SuggestedUsers() {
                         />
                     </li>
                 ))}
-            </ul>
+            </ul>}
         </div>
     );
 }

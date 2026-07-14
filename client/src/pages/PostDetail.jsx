@@ -5,6 +5,7 @@ import { CommentList } from "../components/CommentList";
 import { CommentForm } from "../components/CommentForm";
 import { LikeButton } from "../components/LikeButton";
 import { Avatar } from "../components/Avatar";
+import { PageSpinner } from "../components/Spinner";
 
 function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString(undefined, {
@@ -28,7 +29,7 @@ export function PostDetail() {
             });
     }, [postId]);
 
-    if (loading) return <p className="py-8 text-center text-[var(--text)]">Loading...</p>;
+    if (loading) return <PageSpinner />;
     if (!post) return <p className="py-8 text-center text-[var(--text)]">Post not found.</p>;
 
     function handleCommentCreated(comment) {

@@ -3,7 +3,7 @@ import { getFeed } from "../api/posts";
 import { PostForm } from "../components/PostForm";
 import { PostList } from "../components/PostList";
 import { FormAlert } from "../components/FormFeedback";
-
+import { PostSkeleton } from "../components/PostSkeleton";
 export function Feed() {
     const [posts, setPosts] = useState([]);
     const [discoveryMode, setDiscoveryMode] = useState(false);
@@ -27,7 +27,11 @@ export function Feed() {
     return (
         <div className="max-w-2xl">
             <PostForm onPostCreated={handlePostCreated} />
-            {loading && <p className="py-8 text-center text-[var(--text)]">Loading posts...</p>}
+            {loading && <div>
+                <PostSkeleton />
+                <PostSkeleton />
+                <PostSkeleton />
+            </div>}
             <FormAlert>{error}</FormAlert>
             {!loading && !error && discoveryMode && (
                 <p className="mb-4 text-sm text-[var(--text)]">

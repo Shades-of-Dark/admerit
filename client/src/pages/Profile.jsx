@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getUserById, getUserPosts } from "../api/users";
 import { Avatar } from "../components/Avatar";
 import { FollowButton } from "../components/FollowButton";
 import { PostList } from "../components/PostList";
 import { FormAlert } from "../components/FormFeedback";
-
+import { ProfileSkeleton } from "../components/ProfileSkeleton"
 export function Profile() {
     const { userId } = useParams();
     const { user: currentUser } = useAuth();
@@ -27,7 +27,7 @@ export function Profile() {
             .finally(() => setLoading(false));
     }, [userId]);
 
-    if (loading) return <p className="py-8 text-center text-[var(--text)]">Loading profile...</p>;
+    if (loading) return <ProfileSkeleton></ProfileSkeleton>;
     if (error) return <FormAlert>{error}</FormAlert>;
     if (!profile) return <p className="py-8 text-center text-[var(--text)]">User not found.</p>;
 
@@ -65,7 +65,12 @@ export function Profile() {
                     />
                 )}
                 {isOwnProfile && (
-                    <span className="whitespace-nowrap text-[13px] text-[var(--text)]">This is you</span>
+                    <div className="flex flex-col items-end gap-1.5">
+                        <span className="whitespace-nowrap text-[13px] text-[var(--text)]">This is you</span>
+                        <Link to={`/users/${userId}/edit`} className="inline-block rounded-md bg-gray-900 px-3 py-1.5 text-[13px] text-white no-underline hover:bg-gray-800 transition-colors">
+                            Edit
+                        </Link>
+                    </div>
                 )}
             </div>
 

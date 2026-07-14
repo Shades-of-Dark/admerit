@@ -9,12 +9,13 @@ import { Feed } from "./pages/Feed";
 import { PostDetail } from "./pages/PostDetail";
 import { UsersIndex } from "./pages/UsersIndex";
 import { Profile } from "./pages/Profile";
-
+import { EditProfilePage } from "./pages/EditProfilePage";
+import { PageSpinner } from "./components/Spinner";
 function AuthGate() {
     const { user, loading } = useAuth();
     const [mode, setMode] = useState("login");
 
-    if (loading) return <p className="py-8 text-center text-[var(--text)]">Loading...</p>;
+    if (loading) return <PageSpinner className="py-16" />;
 
     if (user) {
         return (
@@ -27,6 +28,7 @@ function AuthGate() {
                             <Route path="/posts/:postId" element={<PostDetail />} />
                             <Route path="/users" element={<UsersIndex />} />
                             <Route path="/users/:userId" element={<Profile />} />
+                            <Route path="/users/:userId/edit" element={<EditProfilePage />} />
                         </Routes>
                     </main>
                     <aside className="sticky top-6 hidden w-72 shrink-0 lg:block">

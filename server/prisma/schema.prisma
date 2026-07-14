@@ -12,6 +12,7 @@ model User {
   email         String   @unique
   password      String? 
   githubId String? @unique
+  googleId String? @unique
   profilePhoto  String? 
   bio           String?
   intendedMajor String?

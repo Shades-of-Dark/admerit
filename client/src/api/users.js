@@ -28,3 +28,18 @@ export async function unfollowUser(id) {
     const res = await fetch(`/api/v1/users/${id}/follow`, { method: "DELETE", credentials: "include" });
     if (!res.ok) await parseErrorResponse(res, "Failed to unfollow user");
 }
+export async function updateUser(userId, data) {
+    const res = await fetch(`/api/v1/users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+        const errData = await res.json();
+        const error = new Error(errData.error || "Failed to update profile");
+        if (errData.errors) error.fieldErrors = errData.errors;
+        throw error;
+    }
+    return res.json();
+}
