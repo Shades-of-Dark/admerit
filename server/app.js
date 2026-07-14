@@ -2,6 +2,7 @@ require("dotenv/config");
 const path = require("node:path");
 const express = require("express");
 const session = require("express-session");
+const pgSession = require("connect-pg-simple")(session);
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
@@ -10,7 +11,9 @@ const GithubStrategy = require("passport-github2").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const app = express();
-const PORT = Number(process.env.SERVER_PORT);
+const PORT = Number(process.env.PORT || process.env.SERVER_PORT);
+
+app.set("trust proxy", 1);
 
 
 const userRouter = require("./routes/userRouter");
@@ -39,10 +42,18 @@ const {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(session({
+    store: new pgSession({
+        conString: process.env.DATABASE_URL,
+        createTableIfMissing: true,
+    }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+    },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
